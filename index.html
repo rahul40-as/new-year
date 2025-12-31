@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy New Year ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #d862d5, #f1967d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .card-stack {
+            position: relative;
+            height: 360px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            max-height: 190px;
+            object-fit: cover;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        footer {
+            color: #fff;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .heart {
+            position: fixed;
+            bottom: -20px;
+            font-size: 18px;
+            color: rgba(241, 9, 9, 0.8);
+            animation: floatUp linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateY(-110vh) scale(1.6);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Happy New Year ❤️</h1>
+
+        <audio id="bg-music" loop preload="auto">
+            <source src="song.mp3" type="audio/mpeg">
+        </audio>
+
+        <div id="tapHint" style="color:#fff;font-size:14px;">Tap anywhere to play music 🎶</div>
+
+        <div class="card-stack">
+            <div class="card">
+                <img src="her-photo.jpeg" alt="Her Photo">
+                <p>To the girl who made my year beautiful ✨</p>
+            </div>
+
+            <div class="card">
+                <img src="her-photo.jpeg" alt="Her Photo">
+                <p>Every smile of yours turned ordinary days into special memories.</p>
+            </div>
+
+            <div class="card">
+                <img src="her-photo.jpeg" alt="Her Photo">
+                <p>Thank you for being my comfort, my happiness, and my favorite person.</p>
+            </div>
+
+            <div class="card">
+                <img src="her-photo.jpeg" alt="Her Photo">
+                <p>This new year, I just want more moments with you 💖</p>
+            </div>
+        </div>
+
+        <footer>Swipe left 💌</footer>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        let current = 0;
+        let startX = 0;
+
+        cards.forEach((card, index) => {
+            card.style.zIndex = cards.length - index;
+
+            card.addEventListener('touchstart', e => {
+                startX = e.touches[0].clientX;
+            });
+
+            card.addEventListener('touchend', e => {
+                const endX = e.changedTouches[0].clientX;
+                if (startX - endX > 60 && index === current) {
+                    card.style.transform = 'translateX(-120%) rotate(-10deg)';
+                    card.style.opacity = '0';
+                    current++;
+                }
+            });
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (4 + Math.random() * 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 7000);
+        }
+
+        setInterval(createHeart, 600);
+
+        const music = document.getElementById('bg-music');
+        const hint = document.getElementById('tapHint');
+
+        function startMusic() {
+            music.play().then(() => hint.style.display = 'none').catch(() => { });
+        }
+
+        document.body.addEventListener('click', startMusic, { once: true });
+        document.body.addEventListener('touchstart', startMusic, { once: true });
+    </script>
+</body>
+
+</html>
